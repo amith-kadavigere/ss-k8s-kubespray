@@ -21,8 +21,9 @@ terraform {
 # }
 
 provider "aws" {
+  region         = "us-east-1"
   assume_role {
-    role_arn     = "arn:aws:iam::625151782031:role/custom-role"
+    role_arn     = "arn:aws:sts::625151782031:assumed-role/custom-role/i-08d2efc4a5994c3e8"
     session_name = "dev"
   }
 }
