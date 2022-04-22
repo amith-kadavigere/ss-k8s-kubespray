@@ -124,3 +124,7 @@ roles/**/molecule/**/__pycache__/
 
 # Temp location used by our scripts
 scripts/tmp/
+
+# Exclude Terraform backend and plan
+*backend*
+*kube-plan*
