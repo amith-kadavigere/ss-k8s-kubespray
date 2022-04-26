@@ -9,24 +9,24 @@ terraform {
 #   token      = var.AWS_SESSION_TOKEN
 # }
 
+provider "aws" {
+  shared_config_files      = ["~/.aws/config"]
+  shared_credentials_files = ["~/.aws/credentials"]
+  profile                  = "default"
+  region                   = "us-east-1"
+    assume_role {
+    role_arn     = "arn:aws:iam::625151782031:role/custom-role"
+    session_name = "dev"
+  }
+}
+
 # provider "aws" {
-#   shared_config_files      = ["~/.aws/config"]
-#   shared_credentials_files = ["~/.aws/credentials"]
-#   profile                  = "default"
-#   region                   = "us-east-1"
-#     assume_role {
+#   region         = "us-east-1"
+#   assume_role {
 #     role_arn     = "arn:aws:iam::625151782031:role/custom-role"
 #     session_name = "dev"
 #   }
 # }
-
-provider "aws" {
-  region         = "us-east-1"
-  assume_role {
-    role_arn     = "arn:aws:sts::625151782031:assumed-role/custom-role/i-08d2efc4a5994c3e8"
-    session_name = "dev"
-  }
-}
 
 data "aws_availability_zones" "available" {}
 
