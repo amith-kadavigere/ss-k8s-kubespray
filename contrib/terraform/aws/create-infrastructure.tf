@@ -10,23 +10,9 @@ terraform {
 # }
 
 provider "aws" {
-  shared_config_files      = ["~/.aws/config"]
-  shared_credentials_files = ["~/.aws/credentials"]
-  profile                  = "default"
+  profile                  = "admin"
   region                   = "us-east-1"
-    assume_role {
-    role_arn     = "arn:aws:iam::625151782031:role/custom-role"
-    session_name = "dev"
-  }
 }
-
-# provider "aws" {
-#   region         = "us-east-1"
-#   assume_role {
-#     role_arn     = "arn:aws:iam::625151782031:role/custom-role"
-#     session_name = "dev"
-#   }
-# }
 
 data "aws_availability_zones" "available" {}
 

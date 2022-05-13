@@ -14,9 +14,9 @@ variable "AWS_SSH_KEY_NAME" {
   description = "Name of the SSH keypair to use in AWS."
 }
 
-# variable "AWS_DEFAULT_REGION" {
-#   description = "AWS Region"
-# }
+variable "AWS_DEFAULT_REGION" {
+  description = "AWS Region"
+}
 
 //General Cluster Settings
 
@@ -117,6 +117,10 @@ variable "aws_nlb_api_port" {
 
 variable "k8s_secure_api_port" {
   description = "Secure Port of K8S API Server"
+}
+
+variable "kube_insecure_apiserver_address" {
+  description = "tcp Port of K8S API Server"
 }
 
 variable "default_tags" {
