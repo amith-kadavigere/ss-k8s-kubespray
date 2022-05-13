@@ -126,5 +126,4 @@ roles/**/molecule/**/__pycache__/
 scripts/tmp/
 
 # Exclude Terraform backend and plan
-*backend*
 *kube-plan*

@@ -39,7 +39,7 @@ kube_insecure_apiserver_address = "0.0.0.0"
 default_tags = {
   Owner   = "amithtkm"
   Project = "Kubernetes DR testing"
-  Cost-Center = "PS"
+  "Cost Center" = "PS"
 }
 
 inventory_file = "../../../inventory/hosts"
