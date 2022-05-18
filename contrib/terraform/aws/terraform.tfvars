@@ -1,5 +1,5 @@
 #Global Vars
-aws_cluster_name = "k8s-kubespray"
+aws_cluster_name = "ss-dev"
 
 #VPC Vars
 aws_vpc_cidr_block       = "10.250.192.0/18"
@@ -34,12 +34,12 @@ aws_kube_worker_disk_size = 50
 #Settings AWS ELB
 aws_nlb_api_port    = 6443
 k8s_secure_api_port = 6443
-#kube_insecure_apiserver_address = "0.0.0.0"
+kube_insecure_apiserver_address = "0.0.0.0"
 
 default_tags = {
   Owner   = "amithtkm"
   Project = "Kubernetes DR testing"
-  Cost-Center = "PS"
+  "Cost Center" = "PS"
 }
 
 inventory_file = "../../../inventory/hosts"
