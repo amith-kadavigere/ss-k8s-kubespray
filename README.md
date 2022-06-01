@@ -138,12 +138,12 @@ If the output is as expected, your selected AWS profile is ready for use with Te
 
 #### provider.tf
 
-````
+```terraform
 provider "aws" {
   profile                  = "admin"
   region                   = "us-east-1"
 }
-````
+```
 
 #### terraform.tfvars
 
