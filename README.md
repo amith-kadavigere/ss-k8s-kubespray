@@ -73,7 +73,7 @@ vim credentials.tfvars
 In this case, the AWS credentials were as follows.
 
 ```markdown
-> **Note:** We are only specifying the region and key name in this case.
+> **Note:** We are only specifying the region and key name in this example.
 ```
 
 ```console
@@ -147,7 +147,7 @@ provider "aws" {
 
 #### terraform.tfvars
 
-````
+```terraform
 #Global Vars
 aws_cluster_name = "dev"
 
@@ -193,10 +193,10 @@ default_tags = {
 }
 
 inventory_file = "../../../inventory/hosts"
-````
+```
 #### variables.tf
 
-````
+```terraform
 variable "AWS_SSH_KEY_NAME" {
   description = "Name of the SSH keypair to use in AWS."
 }
@@ -318,10 +318,10 @@ variable "default_tags" {
 variable "inventory_file" {
   description = "Where to store the generated inventory file"
 }
-````
+```
 #### backend.tf (To store remote state)
 
-````
+```terraform
 terraform {
   backend "s3" {
     bucket = "backend-config-8375"
@@ -329,4 +329,4 @@ terraform {
     region = "us-east-1"
   }
 }
-````
+```
