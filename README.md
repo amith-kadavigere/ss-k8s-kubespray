@@ -128,3 +128,205 @@ echo $AWS_PROFILE
 ````markdown
 admin
 ````
+Now to check if the config is working and the correct profile is selected you could use the aws cli command to list S3 buckets.
+
+```console
+aws s3 ls
+```
+
+If the output is as expected, your selected AWS profile is ready for use with Terraform. Below is an example Terraform custom config to deploy infrastructure across two availability zones.
+
+#### provider.tf
+
+````
+provider "aws" {
+  profile                  = "admin"
+  region                   = "us-east-1"
+}
+````
+
+#### terraform.tfvars
+
+````
+#Global Vars
+aws_cluster_name = "dev"
+
+#VPC Vars
+aws_vpc_cidr_block       = "10.250.192.0/18"
+aws_cidr_subnets_private = ["10.250.192.0/20", "10.250.208.0/20"]
+aws_cidr_subnets_public  = ["10.250.224.0/20", "10.250.240.0/20"]
+
+# single AZ deployment
+#aws_cidr_subnets_private = ["10.250.192.0/20"]
+#aws_cidr_subnets_public  = ["10.250.224.0/20"]
+
+# 3+ AZ deployment
+#aws_cidr_subnets_private = ["10.250.192.0/24","10.250.193.0/24","10.250.194.0/24","10.250.195.0/24"]
+#aws_cidr_subnets_public  = ["10.250.224.0/24","10.250.225.0/24","10.250.226.0/24","10.250.227.0/24"]
+
+#Bastion Host
+aws_bastion_num  = 1
+aws_bastion_size = "t3.small"
+
+#Kubernetes Cluster
+aws_kube_master_num       = 3
+aws_kube_master_size      = "t3.medium"
+aws_kube_master_disk_size = 50
+
+aws_etcd_num       = 3
+aws_etcd_size      = "t3.medium"
+aws_etcd_disk_size = 50
+
+aws_kube_worker_num       = 3
+aws_kube_worker_size      = "t3.medium"
+aws_kube_worker_disk_size = 50
+
+#Settings AWS ELB
+aws_nlb_api_port    = 6443
+k8s_secure_api_port = 6443
+kube_insecure_apiserver_address = "0.0.0.0"
+
+default_tags = {
+  Owner   = "username"
+  Project = "Project Description"
+  "Cost Center" = "Dev team"
+}
+
+inventory_file = "../../../inventory/hosts"
+````
+#### variables.tf
+
+````
+variable "AWS_SSH_KEY_NAME" {
+  description = "Name of the SSH keypair to use in AWS."
+}
+
+variable "AWS_DEFAULT_REGION" {
+  description = "AWS Region"
+}
+
+//General Cluster Settings
+
+variable "aws_cluster_name" {
+  description = "Name of AWS Cluster"
+}
+
+data "aws_ami" "distro" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["debian-10-amd64-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["136693071363"] # Debian-10
+}
+
+//AWS VPC Variables
+
+variable "aws_vpc_cidr_block" {
+  description = "CIDR Block for VPC"
+}
+
+variable "aws_cidr_subnets_private" {
+  description = "CIDR Blocks for private subnets in Availability Zones"
+  type        = list(string)
+}
+
+variable "aws_cidr_subnets_public" {
+  description = "CIDR Blocks for public subnets in Availability Zones"
+  type        = list(string)
+}
+
+//AWS EC2 Settings
+
+variable "aws_bastion_size" {
+  description = "EC2 Instance Size of Bastion Host"
+}
+
+/*
+* AWS EC2 Settings
+* The number should be divisable by the number of used
+* AWS Availability Zones without an remainder.
+*/
+variable "aws_bastion_num" {
+  description = "Number of Bastion Nodes"
+}
+
+variable "aws_kube_master_num" {
+  description = "Number of Kubernetes Master Nodes"
+}
+
+variable "aws_kube_master_disk_size" {
+  description = "Disk size for Kubernetes Master Nodes (in GiB)"
+}
+
+variable "aws_kube_master_size" {
+  description = "Instance size of Kube Master Nodes"
+}
+
+variable "aws_etcd_num" {
+  description = "Number of etcd Nodes"
+}
+
+variable "aws_etcd_disk_size" {
+  description = "Disk size for etcd Nodes (in GiB)"
+}
+
+variable "aws_etcd_size" {
+  description = "Instance size of etcd Nodes"
+}
+
+variable "aws_kube_worker_num" {
+  description = "Number of Kubernetes Worker Nodes"
+}
+
+variable "aws_kube_worker_disk_size" {
+  description = "Disk size for Kubernetes Worker Nodes (in GiB)"
+}
+
+variable "aws_kube_worker_size" {
+  description = "Instance size of Kubernetes Worker Nodes"
+}
+
+/*
+* AWS NLB Settings
+*
+*/
+variable "aws_nlb_api_port" {
+  description = "Port for AWS NLB"
+}
+
+variable "k8s_secure_api_port" {
+  description = "Secure Port of K8S API Server"
+}
+
+variable "kube_insecure_apiserver_address" {
+  description = "tcp Port of K8S API Server"
+}
+
+variable "default_tags" {
+  description = "Default tags for all resources"
+  type        = map(string)
+}
+
+variable "inventory_file" {
+  description = "Where to store the generated inventory file"
+}
+````
+#### backend.tf (To store remote state)
+
+````
+terraform {
+  backend "s3" {
+    bucket = "backend-config-8375"
+    key    = "dev/kubespray"
+    region = "us-east-1"
+  }
+}
+````
