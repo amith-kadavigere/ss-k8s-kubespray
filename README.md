@@ -330,3 +330,6 @@ terraform {
   }
 }
 ```
+
+
+<img width="1261" alt="image" src="https://user-images.githubusercontent.com/62608538/171557147-60bbd963-2671-44d3-a0d4-c08c2f78cc3c.png">
