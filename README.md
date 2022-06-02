@@ -149,7 +149,7 @@ provider "aws" {
 
 ```terraform
 #Global Vars
-aws_cluster_name = "dev"
+aws_cluster_name = "ss-dev"
 
 #VPC Vars
 aws_vpc_cidr_block       = "10.250.192.0/18"
