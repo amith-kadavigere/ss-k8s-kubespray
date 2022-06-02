@@ -330,6 +330,18 @@ terraform {
   }
 }
 ```
+Next, initialize Terraform and run terraform plan to see any changes required for the infrastructure.
 
+```console
+terraform init
+terraform plan -out kube-plan -var-file=credentials.tfvars
+```
+After, apply the plan that was just created. This begins deploying the infrastructure and may take a few minutes.
+
+```console
+terraform apply “kube-plan”
+```
+
+Once deployed, we can verify the infrastructure in our AWS dashboard.
 
 <img width="1261" alt="image" src="https://user-images.githubusercontent.com/62608538/171557147-60bbd963-2671-44d3-a0d4-c08c2f78cc3c.png">
