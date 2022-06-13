@@ -105,7 +105,7 @@ output = json
 
 ```console
 cd ~/.aws
-cat config
+cat credentials
 ```
 
 ```markdown
