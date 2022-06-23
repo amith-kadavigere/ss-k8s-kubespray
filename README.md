@@ -377,7 +377,7 @@ Now that the cluster has been deployed, we can configure who has access to it. F
 cat inventory/hosts
 ```
 
-```ansible
+```yaml
 [all]
 ip-10-250-199-147.ec2.internal ansible_host=10.250.199.147
 ip-10-250-199-223.ec2.internal ansible_host=10.250.199.223
@@ -432,9 +432,9 @@ exit
 vim ~/.kube/config
 ```
 
-Since in production we use multiple contexts to manage Kubernetes clusters we'll be using a merged Kubeconfig file like below.
+In production, we would frequently have multiple environments with multiple Kubernetes clusters, hence we would be using merged Kubeconfig file and use contexts to switch between multiple clusters like below.
 
-```
+```yaml
 apiVersion: v1
 clusters:
 - cluster:
@@ -473,7 +473,7 @@ kind: Config
 preferences: {}
 ```
 
-For more information on managing multiple Kubernetes clusters refer to this [link](https://computingforgeeks.com/manage-multiple-kubernetes-clusters-with-kubectl-kubectx/).
+For more information on managing multiple Kubernetes clusters with Kubectx/Kubens and working with merged Kubeconfig, refer to this [link](https://computingforgeeks.com/manage-multiple-kubernetes-clusters-with-kubectl-kubectx/).
 
 Next, copy the URL of the load balancer from the inventory file. In our case, the URL is ``kubernetes-nlb-ss-dev-3bdcbf0d070c1428.elb.us-east-1.amazonaws.com``. Paste this URL into the server parameter in kubectl config. Do not overwrite the port.
 
@@ -487,7 +487,7 @@ kubectl cluster-info
 ```
 Node and cluster details will be shown in the console.
 
-![Cluster and node details](https://www.altoros.com/blog/wp-content/uploads/2020/03/kubernetes-cluster-and-node-details-1024x576.png)
+<img width="1512" alt="image" src="https://user-images.githubusercontent.com/62608538/175300463-1b25c38a-d968-45fd-8a58-d3044ae96815.png">
 
 With the cluster ready, we can run a test deployment.
 
@@ -499,8 +499,8 @@ kubectl get deployments
 
 Entering this commands should deploy NGINX and also return the status of the pods and deployments.
 
-![Successful test deployment](https://www.altoros.com/blog/wp-content/uploads/2020/03/deploy-nginx.png)
+<img width="1512" alt="image" src="https://user-images.githubusercontent.com/62608538/175300786-ec7695e7-b537-49d5-9d21-aebd9831ca5e.png">
 
-With this, we have successfully provisioned our cloud infrastructure with Terraform. We then deployed a Kubernetes cluster using Kubespray. We also configured access to the cluster and were finally able to run test deployments.
+With this, we have successfully provisioned our cloud infrastructure with Terraform. We then deployed a Kubernetes cluster using Kubespray. We also configured access to the cluster and finally we ran the test deployments.
 
 More on Kubespray can be found in its [GitHub repository](https://github.com/kubernetes-sigs/kubespray), as well as in the project’s [official documentation](https://kubespray.io/#/).
