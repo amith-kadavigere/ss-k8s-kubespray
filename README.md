@@ -473,7 +473,7 @@ kind: Config
 preferences: {}
 ```
 
-For more information on managing multiple Kubernetes clusters with Kubectx/Kubens and working with merged Kubeconfig, refer to this [link](https://computingforgeeks.com/manage-multiple-kubernetes-clusters-with-kubectl-kubectx/).
+Once you have the merged Kubeconfig in place, you could choose between multiple Kubernetes clusters / contexts with Docker Desktop or Kubectx. For more information on managing multiple Kubernetes clusters with Kubectx/Kubens and working with merged Kubeconfig, refer to this [link](https://computingforgeeks.com/manage-multiple-kubernetes-clusters-with-kubectl-kubectx/).
 
 Next, copy the URL of the load balancer from the inventory file. In our case, the URL is ``kubernetes-nlb-ss-dev-3bdcbf0d070c1428.elb.us-east-1.amazonaws.com``. Paste this URL into the server parameter in kubectl config. Do not overwrite the port.
 
